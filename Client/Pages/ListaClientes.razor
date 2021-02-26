@@ -1,0 +1,29 @@
+﻿@page "/ListaClientes"
+@using EntityFrameworkGuia.Shared
+@inject HttpClient http
+
+
+@code{
+    string[] cabecerasTabla = { "Codigo", "Nombre", "Apellido","Telefono" };
+}
+
+<Lista cabeceras=cabecerasTabla lista=listaClientes eventBusqueda="BusquedaCliente"/>
+
+@code {
+    private Cliente[] listaClientes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaClientes = await http.GetFromJsonAsync<Cliente[]>("api/Clientes/Get");
+    }
+
+    public async Task BusquedaCliente(string data)
+    {
+        listaClientes = await http.GetFromJsonAsync<Cliente[]>("api/Cliente/Filtrar/" + data);
+
+    }
+
+}
+
+
+

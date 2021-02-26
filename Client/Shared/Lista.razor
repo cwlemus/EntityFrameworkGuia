@@ -1,0 +1,58 @@
+﻿
+@if (lista == null)
+{
+    <h1>Cargando....</h1>
+}
+else
+{
+    <div class="mb-4">
+        <input type="text" class="form-check form-control"
+               @bind-value="filtro"
+               @bind-value:event="oninput" 
+               @onkeyup="Busqueda" />
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var item in cabeceras)
+                {
+                    <td>@item</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (object obj in lista)
+            {
+                <tr>
+                    @foreach (var prop in obj.GetType().GetProperties())
+                    {
+                        <td>@prop.GetValue(obj)</td>
+                    }
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string[] cabeceras { get; set; }
+
+    [Parameter]
+    public object[] lista { get; set; }
+
+    public string filtro { get; set; }
+
+    [Parameter]
+    public EventCallback<string> eventBusqueda { get; set; }
+
+    public void Busqueda()
+    {
+        eventBusqueda.InvokeAsync(filtro);
+    }
+
+}
+
+

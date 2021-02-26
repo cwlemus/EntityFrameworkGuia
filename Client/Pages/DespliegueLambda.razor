@@ -1,0 +1,28 @@
+﻿@page "/MayorEdadLamda"
+@inject HttpClient http
+
+<input class="form-control" type="text" @bind-value="@n1" @bind-value:event="oninput"/>
+<input class="form-control" type="text" @bind-value="@n2" @bind-value:event="oninput" />
+
+<label>Resultado: @d(n1,@n2)</label>
+
+@code {
+    int edad = 0;
+    int n1 = 0, n2 = 0, n3 = 0;
+    //  private String EsMayor = "No definido";
+    Func<int, string> MayoriaEdad = edad => edad >= 18 ? "Mayor Edad" : "Menor Edad";
+
+    delegate int myDel(int n1, int n2);
+    myDel d = (x, y) => (x > y == true) ? x : y;
+
+
+    static int[] numeros = { 1, 2, 3, 4 };
+    String numerosCuadrado = String.Join(" ", numeros.Select(x => x * x));
+
+
+    /*  protected override async Task OnInitializedAsync()
+      {
+          EsMayor = await http.GetStringAsync("api/MayorEdadLamda");
+      }*/
+}
+
